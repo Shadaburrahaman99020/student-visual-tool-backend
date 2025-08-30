@@ -12,6 +12,7 @@
     "encore.dev": "^1.49.1"
   },
   "devDependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "@types/node": "^20.12.7"
   }
 }
