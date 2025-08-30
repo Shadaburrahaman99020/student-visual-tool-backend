@@ -1,25 +1,17 @@
-# --- Build Stage ---
-FROM node:18 AS build
+FROM node:18
+
+# Install bun (agar bun use kar rahe ho build ke liye)
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:${PATH}"
+
 WORKDIR /app
 
-# Copy package files & install deps
-COPY package*.json tsconfig.json ./
-RUN npm install
+COPY package.json tsconfig.json ./
+COPY students ./students
+COPY frontend ./frontend
 
-# Copy source code
-COPY src ./src
+RUN bun install
+RUN bun run build
 
-# Build TS -> JS
-RUN npm run build
-
-# --- Run Stage ---
-FROM node:18 AS runner
-WORKDIR /app
-
-# Copy only built files + node_modules
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/node_modules ./node_modules
-COPY package*.json ./
-
-# Start app
-CMD ["node", "dist/index.js"]
+# Encore ko run karo (Encore handle karega services)
+CMD ["npx", "encore", "run"]
