@@ -4,7 +4,9 @@
   "type": "module",
   "packageManager": "bun",
   "scripts": {
-    "build": "cd ../frontend && bun install && vite build --outDir=../backend/frontend/dist"
+    "build": "cd ../frontend && bun install && vite build --outDir=../backend/frontend/dist",
+    "dev": "encore run",
+    "start": "encore run --port=8080"
   },
   "dependencies": {
     "encore.dev": "^1.49.1"
