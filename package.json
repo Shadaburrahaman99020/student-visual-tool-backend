@@ -4,8 +4,8 @@
   "type": "module",
   "packageManager": "bun",
   "scripts": {
-    "dev": "encore run",
-    "start": "encore run --port=8080"
+    "dev": "bun run --watch src/index.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "encore.dev": "^1.49.1"
