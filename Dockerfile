@@ -1,19 +1,25 @@
-FROM oven/bun:1 AS build
+# --- Build Stage ---
+FROM node:18 AS build
 WORKDIR /app
 
-COPY package.json bun.lockb tsconfig.json ./
-RUN bun install
+# Copy package files & install deps
+COPY package*.json tsconfig.json ./
+RUN npm install
 
+# Copy source code
 COPY src ./src
 
-# ✅ Ye ab dist folder create karega
-RUN bun run build
+# Build TS -> JS
+RUN npm run build
 
-FROM oven/bun:1 AS runner
+# --- Run Stage ---
+FROM node:18 AS runner
 WORKDIR /app
 
+# Copy only built files + node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
-COPY package.json ./
+COPY package*.json ./
 
+# Start app
 CMD ["node", "dist/index.js"]
